@@ -17,7 +17,12 @@ def process_address(address: str):
         address = address.replace(old, new)
     address = address.split()
     if address[0] == "россия":
-        address = address[2:]
+        address[0] = ""
     for index, word in enumerate(address):
-        address[index] = short_to_full.get(word, word)
+        if word.isdigit() and len(word) == 6:
+            address[index] = ""
+        else:
+            address[index] = short_to_full.get(word, word)
+    while address[0] == "," or address[0] == "":
+        address = address[1:]
     return " ".join(address).replace(' ,', ',')
