@@ -1,2 +1,2 @@
 web: python backend/app.py
-client: cd client && npm run dev
+client: cd frontend && npm run dev
