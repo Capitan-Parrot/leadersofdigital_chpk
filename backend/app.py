@@ -1,11 +1,12 @@
 from os import getenv
 
 import uvicorn
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile
 from starlette.middleware.cors import CORSMiddleware
+from starlette.responses import FileResponse, StreamingResponse
 
 from backend import schemas
-from backend.process import process_file, process_address
+from backend.process import process_file, process_address, create_csv_response
 
 app = FastAPI()
 app.add_middleware(
@@ -28,7 +29,7 @@ async def one_address(input_address: schemas.Address):
     return target
 
 
-@app.post("/file", response_model=list[list[schemas.Target]])
+@app.post("/file", response_model=StreamingResponse)
 async def file(address_file: UploadFile):
     address_list = await process_file(address_file)
     print(address_list)
@@ -37,7 +38,7 @@ async def file(address_file: UploadFile):
         processed_address = process_address(address[1])
         correct = await correct_address(processed_address)
         correct_addresses.append(correct)
-    return correct_addresses
+    return create_csv_response(correct_addresses)
 
 
 async def correct_address(input_address):
@@ -45,9 +46,10 @@ async def correct_address(input_address):
     return {"target_building_id": 1, "target_address": "Санкт-Петербург", "score": 98.7}
 
 
-# if __name__ == "__main__":
-#     uvicorn.run(
-#         app,
-#         host=getenv("SERVER_HOST", "127.0.0.1"),
-#         port=int(getenv("SERVER_PORT", 80)),
-#     )
+if __name__ == "__main__":
+    uvicorn.run(
+        app,
+        host=getenv("SERVER_HOST", "0.0.0.0"),
+        port=int(getenv("PORT", 8000)),
+        workers=4
+    )
