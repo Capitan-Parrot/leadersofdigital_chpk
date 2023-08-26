@@ -25,8 +25,8 @@ async def root():
 
 @app.post("/oneAddress", response_model=list[schemas.Target])
 async def one_address(input_address: schemas.Address):
-    target = await correct_address(input_address)
-    return target
+    targets = await correct_address(input_address)
+    return targets
 
 
 @app.post("/file", response_class=StreamingResponse)
@@ -43,7 +43,8 @@ async def file(address_file: UploadFile):
 
 async def correct_address(input_address):
     # result = await
-    return {"target_building_id": 1, "target_address": "Санкт-Петербург", "score": 98.7}
+    return [{"target_building_id": 1, "target_address": "Санкт-Петербург, город Павловск, Пязелево, Школьная улица, дом 5, литера А", "score": 98.7},
+            {"target_building_id": 1, "target_address": "Санкт-Петербург, город Павловск, Пязелево, Школьная улица, дом 5, литера B", "score": 88.7}]
 
 
 if __name__ == "__main__":
@@ -51,5 +52,5 @@ if __name__ == "__main__":
         "app:app",
         host=getenv("SERVER_HOST", "0.0.0.0"),
         port=int(getenv("PORT", 3000)),
-        workers=4
+        reload=True
     )
