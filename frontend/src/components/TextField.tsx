@@ -45,6 +45,7 @@ export const TextField: React.FC<TextFieldProps> = (p) => {
         type="file"
         className="hidden"
         ref={fileInputRef}
+        accept=".csv"
         onChange={onFileChange}
       />
       <input

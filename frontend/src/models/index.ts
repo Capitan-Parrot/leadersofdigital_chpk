@@ -18,6 +18,6 @@ export type MessageOutput =
 export type MessageItem = {
   id: number;
   status: "pending" | "error" | "success";
-  avgScore: number;
+  bestScore: number;
   input: string;
 } & MessageOutput;
