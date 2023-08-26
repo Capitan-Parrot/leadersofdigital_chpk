@@ -15,7 +15,7 @@ export const MessageList = observer(() => {
 
   useEffect(() => {
     scrollToBottom();
-  }, []);
+  }, [vm.items.length]);
 
   return (
     <div className="overflow-scroll mt-auto pb-8">

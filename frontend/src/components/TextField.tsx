@@ -26,8 +26,8 @@ export const TextField: React.FC<TextFieldProps> = (p) => {
     <form
       className={`flex w-full relative ${p.disabled ? "opacity-50" : ""}`}
       onSubmit={(e) => {
-        if (p.disabled || !value) return;
         e.preventDefault();
+        if (p.disabled || !value) return;
         p.onSubmit(value);
         setValue("");
       }}
