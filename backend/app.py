@@ -50,6 +50,6 @@ if __name__ == "__main__":
     uvicorn.run(
         app,
         host=getenv("SERVER_HOST", "0.0.0.0"),
-        port=int(getenv("PORT", 8000)),
+        port=int(getenv("PORT", 3000)),
         workers=4
     )

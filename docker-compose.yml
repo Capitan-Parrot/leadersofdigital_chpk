@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend:
+    restart: always
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    env_file:
+      - backend/.env
+    networks:
+      - chpk
+    ports:
+      - "3000:80"
+    depends_on:
+      - db
+
+  front:
+    restart: always
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: https://localhost:3000
+    networks:
+      - chpk
+    ports:
+      - '4000:4000'
