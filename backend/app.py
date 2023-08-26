@@ -42,7 +42,7 @@ async def file(address_file: UploadFile):
 
 async def correct_address(input_address):
     # result = await
-    return {"target_building_id": 1, "target_address": "Санкт-Петербург"}
+    return {"target_building_id": 1, "target_address": "Санкт-Петербург", "score": 98.7}
 
 
 # if __name__ == "__main__":
