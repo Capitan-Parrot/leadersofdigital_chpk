@@ -1,11 +1,10 @@
-export type PredictionResponse = {
+export type TextPredictionResponse = {
   target_building_id: number;
   target_address: string;
   score: number;
-}[];
+};
 
-export type TextResult = PredictionResponse[];
-export type FileResult = PredictionResponse[][];
+export type TextResult = TextPredictionResponse[];
 
 export type MessageOutput =
   | {
@@ -14,7 +13,6 @@ export type MessageOutput =
     }
   | {
       kind: "file";
-      output: FileResult | null;
     };
 
 export type MessageItem = {
