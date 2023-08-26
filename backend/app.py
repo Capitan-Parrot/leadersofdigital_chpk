@@ -1,7 +1,7 @@
 from os import getenv
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from starlette.middleware.cors import CORSMiddleware
 
 from backend import schemas
@@ -28,14 +28,16 @@ async def one_address(input_address: schemas.Address):
     return target
 
 
-@app.post("/file", response_model=list[schemas.Target])
-async def file(address_file: schemas.AddressFile):
+@app.post("/file", response_model=list[list[schemas.Target]])
+async def file(address_file: UploadFile = File(...)):
     address_list = await process_file(address_file)
-    print(address_file)
+    print(address_list)
+    correct_addresses = []
     for address in address_list:
-        processed_address = process_address(address)
-        address_list[address] = await correct_address(processed_address)
-    return address_list
+        processed_address = process_address(address[1])
+        correct = await correct_address(processed_address)
+        correct_addresses.append(correct)
+    return correct_addresses
 
 
 async def correct_address(input_address):

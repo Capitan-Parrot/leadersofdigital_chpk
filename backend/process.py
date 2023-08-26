@@ -2,8 +2,7 @@ import pandas as pd
 
 
 async def process_file(file):
-    new_file = await file.read()
-    flats = pd.read_excel(new_file)
+    flats = pd.read_csv(file.file)
     return flats.values.tolist()
 
 
