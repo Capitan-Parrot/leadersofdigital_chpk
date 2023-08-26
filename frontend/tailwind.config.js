@@ -2,6 +2,9 @@
 export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    screens: {
+      md: "860px",
+    },
     extend: {
       colors: {
         primary: "#0541F0",
