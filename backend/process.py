@@ -4,6 +4,7 @@ import csv
 
 import pandas.errors
 from fastapi import HTTPException
+from starlette.responses import StreamingResponse
 
 
 async def process_file(file):
@@ -15,13 +16,13 @@ async def process_file(file):
 
 
 def create_csv_response(addresses):
-    output = io.StringIO()
-    writer = csv.writer(output)
-    writer.writerow(addresses)
-    csv_string = output.getvalue()
-
-    print(csv_string)
-    return csv_string
+    df = pd.DataFrame(addresses)
+    stream = io.StringIO()
+    df.to_csv(stream, index=False)
+    response = StreamingResponse(
+        iter([stream.getvalue()]), media_type="text/csv")
+    response.headers["Content-Disposition"] = "attachment; filename=export.csv"
+    return response
 
 
 def process_address(address: str):
