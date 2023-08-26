@@ -60,9 +60,9 @@ class MessagesStore {
       const response = await fetch(API_URL + `oneAddress`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json;charset=utf-8",
         },
-        mode: "no-cors",
+        mode: "cors",
         body: JSON.stringify({ address: message }),
       });
 

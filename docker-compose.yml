@@ -11,7 +11,7 @@ services:
     networks:
       - chpk
     ports:
-      - "3000:80"
+      - "3000:3000"
 
   front:
     restart: always
@@ -19,11 +19,11 @@ services:
       context: frontend
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: https://localhost:3000/
+        VITE_API_URL: http://localhost:3000/
     networks:
       - chpk
     ports:
-      - '4000:4000'
+      - '3002:3002'
 
 networks:
   chpk:

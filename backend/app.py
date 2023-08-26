@@ -5,8 +5,8 @@ from fastapi import FastAPI, UploadFile, File
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse, StreamingResponse
 
-from backend import schemas
-from backend.process import process_file, process_address, create_csv_response
+import schemas
+from process import process_file, process_address, create_csv_response
 
 app = FastAPI()
 app.add_middleware(
@@ -24,8 +24,8 @@ async def root():
 
 
 @app.post("/oneAddress", response_model=list[schemas.Target])
-async def one_address(input_address: schemas.Address):
-    targets = await correct_address(input_address)
+async def one_address(address: schemas.Address):
+    targets = await correct_address(address)
     return targets
 
 
@@ -50,7 +50,7 @@ async def correct_address(input_address):
 if __name__ == "__main__":
     uvicorn.run(
         "app:app",
-        host=getenv("SERVER_HOST", "0.0.0.0"),
+        host=getenv("HOST", "0.0.0.0"),
         port=int(getenv("PORT", 3000)),
         reload=True
     )

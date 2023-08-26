@@ -1,5 +1,5 @@
 # pull official base image
-FROM node:13.12.0-alpine
+FROM node:20-alpine3.17
 
 # set working directory
 WORKDIR /app
@@ -8,6 +8,7 @@ WORKDIR /app
 COPY package.json ./
 COPY package-lock.json ./
 RUN npm i --lockfile-version 3
+RUN npm i vite -g
 
 # add app
 COPY . ./
