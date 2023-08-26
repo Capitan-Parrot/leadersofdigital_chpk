@@ -1,11 +1,18 @@
 import pandas as pd
-from starlette.responses import StreamingResponse
 import io
+import csv
+
+import pandas.errors
+from fastapi import HTTPException
+from starlette.responses import StreamingResponse
 
 
 async def process_file(file):
-    flats = pd.read_csv(file.file)
-    return flats.values.tolist()
+    try:
+        addresses = pd.read_csv(file.file)
+        return addresses.values.tolist()
+    except pandas.errors.EmptyDataError:
+        raise HTTPException(status_code=404, detail="Файл пуст")
 
 
 def create_csv_response(addresses):

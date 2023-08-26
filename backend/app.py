@@ -1,7 +1,7 @@
 from os import getenv
 
 import uvicorn
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, UploadFile, File
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse, StreamingResponse
 
@@ -30,12 +30,12 @@ async def one_address(input_address: schemas.Address):
 
 
 @app.post("/file", response_class=StreamingResponse)
-async def file(address_file: UploadFile):
+async def file(address_file: UploadFile = File(...)):
     address_list = await process_file(address_file)
     print(address_list)
     correct_addresses = []
     for address in address_list:
-        processed_address = process_address(address[1])
+        processed_address = process_address(str(address[1]))
         correct = await correct_address(processed_address)
         correct_addresses.append(correct)
     return create_csv_response(correct_addresses)
