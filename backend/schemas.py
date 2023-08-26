@@ -13,6 +13,6 @@ class Address(BaseModel):
 class Target(BaseModel):
     target_building_id: int
     target_address: str
-    score: int
+    score: float
 
 
