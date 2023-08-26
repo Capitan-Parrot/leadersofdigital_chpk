@@ -22,14 +22,14 @@ async def root():
     return {"message": "Привет от команды ЧПК МИСИС!"}
 
 
-@app.post("/oneAddress", response_model=schemas.Target)
+@app.post("/oneAddress", response_model=list[schemas.Target])
 async def one_address(input_address: schemas.Address):
     target = await correct_address(input_address)
     return target
 
 
 @app.post("/file", response_model=list[list[schemas.Target]])
-async def file(address_file: UploadFile = File(...)):
+async def file(address_file: UploadFile):
     address_list = await process_file(address_file)
     print(address_list)
     correct_addresses = []

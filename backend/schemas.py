@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 
 class AddressFile(BaseModel):
-    file: UploadFile
+    address_file: UploadFile
 
 
 class Address(BaseModel):
