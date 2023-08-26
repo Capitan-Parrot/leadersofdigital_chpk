@@ -100,6 +100,7 @@ class MessagesStore {
 
     const formData = new FormData();
     formData.append("address_file", file);
+
     try {
       const response = await fetch(API_URL + `file`, {
         method: "POST",
@@ -124,6 +125,8 @@ class MessagesStore {
       URL.revokeObjectURL(downloadUrl);
 
       item.status = "success";
+
+      localStorage.setItem("messages", JSON.stringify(this.items));
     } catch {
       const item = this.items.find((item) => item.id === itemId);
       if (item && item.kind === "file") {

@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { MessageItem } from "../models";
 import { Checkmark } from "./Checkmark";
 import LoadingSvg from "../assets/loading.svg";
 import MapSvg from "../assets/map.svg";
 import AttachmentSvg from "../assets/attachment.svg";
 import { observer } from "mobx-react-lite";
+import ChevronDownSvg from "../assets/chevron-down.svg";
 
 interface MessageGroupProps {
   item: MessageItem;
 }
 
 export const DialogGroup: React.FC<MessageGroupProps> = observer(({ item }) => {
+  const [detailsExpanded, setDetailsExpanded] = useState(false);
+
   const openOnMap = (address: string) => {
     window.open(
       `https://www.google.com/maps/search/?api=1&query=${address}`,
@@ -27,7 +30,7 @@ export const DialogGroup: React.FC<MessageGroupProps> = observer(({ item }) => {
     ),
     success:
       item.kind === "text" ? (
-        <div className="flex py-6 mt-1 flex-col">
+        <div className="flex mt-6 flex-col">
           <div className="flex flex-col text-center">
             <p className="text-text-primary/60">корректный адрес</p>
             <h2 className="text-2xl font-medium">
@@ -42,9 +45,47 @@ export const DialogGroup: React.FC<MessageGroupProps> = observer(({ item }) => {
               Показать на карте
             </button>
           </div>
+          <div className="flex flex-col mt-6">
+            <div
+              className="flex items-center text-text-primary/60 hover:text-text-primary/80 justify-between cursor-pointer gap-1"
+              onClick={() => setDetailsExpanded(!detailsExpanded)}
+            >
+              <p>Показать возможные адреса</p>
+              <ChevronDownSvg
+                className="transition-transform duration-300"
+                style={{
+                  transform: detailsExpanded
+                    ? "rotate(180deg)"
+                    : "rotate(0deg)",
+                }}
+                width="28"
+                height="28"
+              />
+            </div>
+            {detailsExpanded && (
+              <div className="flex flex-col mt-1">
+                <div className="flex justify-between font-medium">
+                  <p className="text-text-primary/60">Адрес</p>
+                  <p className="text-text-primary/60">Score</p>
+                </div>
+                {item.output?.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 text-text-primary"
+                  >
+                    <p>{item.target_address}</p>
+                    <span className="bg-text-primary/20 h-[1px] min-w-[60px] flex-1" />
+                    <p className="text-primary font-medium">
+                      {item.score.toFixed(3)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       ) : (
-        <p>Файл загружен</p>
+        <p className="text-center my-4">Файл загружен!</p>
       ),
     error: <p>Произошла ошибка :(</p>,
   };
@@ -56,7 +97,7 @@ export const DialogGroup: React.FC<MessageGroupProps> = observer(({ item }) => {
         <span className="text-primary font-medium ml-2">ИИ</span>
         дентификатор
       </div>
-      {item.status === "success" && (
+      {item.status === "success" && item.kind === "text" && (
         <div className="flex items-center ml-auto gap-2 text-sm appear">
           <p className="text-text-primary/60">
             best_score: <b>{item.bestScore.toFixed(3)}</b>
@@ -68,7 +109,7 @@ export const DialogGroup: React.FC<MessageGroupProps> = observer(({ item }) => {
   );
 
   return (
-    <div className="flex flex-col mt-12 gap-3">
+    <div className="flex flex-col mt-12 gap-3 px-0.5">
       <div className="bg-primary flex gap-2 items-center text-white rounded-xl rounded-br-none py-3 px-4 text-lg w-fit ml-auto">
         {item.kind === "file" && <AttachmentSvg className="w-5 h-5" />}
         {item.input}
