@@ -4,12 +4,13 @@ import { Checkmark } from "./Checkmark";
 import LoadingSvg from "../assets/loading.svg";
 import MapSvg from "../assets/map.svg";
 import AttachmentSvg from "../assets/attachment.svg";
+import { observer } from "mobx-react-lite";
 
 interface MessageGroupProps {
   item: MessageItem;
 }
 
-export const DialogGroup: React.FC<MessageGroupProps> = ({ item }) => {
+export const DialogGroup: React.FC<MessageGroupProps> = observer(({ item }) => {
   const openOnMap = (address: string) => {
     window.open(
       `https://www.google.com/maps/search/?api=1&query=${address}`,
@@ -58,7 +59,7 @@ export const DialogGroup: React.FC<MessageGroupProps> = ({ item }) => {
       {item.status === "success" && (
         <div className="flex items-center ml-auto gap-2 text-sm appear">
           <p className="text-text-primary/60">
-            avg_score: <b>{item.avgScore.toFixed(3)}</b>
+            best_score: <b>{item.bestScore.toFixed(3)}</b>
           </p>
           <Checkmark size={24} />
         </div>
@@ -79,4 +80,4 @@ export const DialogGroup: React.FC<MessageGroupProps> = ({ item }) => {
       </div>
     </div>
   );
-};
+});

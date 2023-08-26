@@ -18,7 +18,7 @@ export const MessageList = observer(() => {
   }, [vm.items.length]);
 
   return (
-    <div className="overflow-scroll mt-auto pb-8">
+    <div className="overflow-y-auto mt-auto pb-8">
       {vm.items.map((item) => (
         <DialogGroup key={item.id} item={item} />
       ))}
