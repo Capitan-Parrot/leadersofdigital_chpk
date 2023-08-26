@@ -43,9 +43,9 @@ async def correct_address(input_address):
     return {"target_building_id": 1, "target_address": "Санкт-Петербург"}
 
 
-if __name__ == "__main__":
-    uvicorn.run(
-        app,
-        host=getenv("SERVER_HOST", "127.0.0.1"),
-        port=int(getenv("SERVER_PORT", 80)),
-    )
+# if __name__ == "__main__":
+#     uvicorn.run(
+#         app,
+#         host=getenv("SERVER_HOST", "127.0.0.1"),
+#         port=int(getenv("SERVER_PORT", 80)),
+#     )
