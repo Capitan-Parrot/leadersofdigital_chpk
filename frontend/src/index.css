@@ -12,3 +12,16 @@ body {
   font-family: "Montserrat", sans-serif;
   font-family: "Roboto", sans-serif;
 }
+
+.appear {
+  animation: appear 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
