@@ -29,7 +29,7 @@ async def one_address(input_address: schemas.Address):
     return target
 
 
-@app.post("/file", response_model=StreamingResponse)
+@app.post("/file", response_class=StreamingResponse)
 async def file(address_file: UploadFile):
     address_list = await process_file(address_file)
     print(address_list)
