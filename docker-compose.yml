@@ -12,8 +12,6 @@ services:
       - chpk
     ports:
       - "3000:80"
-    depends_on:
-      - db
 
   front:
     restart: always
@@ -26,3 +24,7 @@ services:
       - chpk
     ports:
       - '4000:4000'
+
+networks:
+  chpk:
+    driver: bridge
