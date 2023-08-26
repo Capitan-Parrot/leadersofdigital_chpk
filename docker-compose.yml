@@ -4,7 +4,6 @@ services:
   backend:
     restart: always
     build:
-      context: backend
       dockerfile: Dockerfile
     env_file:
       - backend/.env
