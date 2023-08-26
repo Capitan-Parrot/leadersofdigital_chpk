@@ -18,9 +18,9 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-async def root():
-    return {"message": "Привет от команды ЧПК МИСИС!"}
+# @app.get("/")
+# async def root():
+#     return {"message": "Привет от команды ЧПК МИСИС!"}
 
 
 @app.post("/oneAddress", response_model=list[schemas.Target])
