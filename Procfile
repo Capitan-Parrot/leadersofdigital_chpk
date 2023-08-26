@@ -1,1 +1,2 @@
-web: sh -c "python backend/app.py && cd frontend && npm run dev"
+web: python backend/app.py
+client: cd client && run dev
