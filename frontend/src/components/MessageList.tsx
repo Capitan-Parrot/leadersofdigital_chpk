@@ -21,7 +21,7 @@ export const MessageList = observer(() => {
   return (
     <div className="overflow-y-auto mt-auto pb-8">
       {vm.items.length === 0 && (
-        <div className="flex flex-col items-center justify-center h-[500px]">
+        <div className="flex flex-col items-center justify-center h-[700px]">
           <h1 className="text-2xl text-center font-medium text-text-primary/60">
             Введите адрес в поле ниже
             <br />

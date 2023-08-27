@@ -51,6 +51,7 @@ export const TextField: React.FC<TextFieldProps> = (p) => {
       <input
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        autoFocus
         placeholder="невский п. 21, 2 подъезд 3"
         className="flex-1 px-4 py-4 outline-none rounded-2xl bg-white border-border-main border-[1px] focus:border-primary/50 transition-all"
         disabled={p.disabled}

@@ -5,34 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 class MessagesStore {
   public isLoading: boolean = false;
-  public items: MessageItem[] = [
-    {
-      id: 1,
-      status: "success",
-      kind: "text",
-      input: "Hello",
-      bestScore: 0.5,
-      output: [
-        {
-          target_building_id: 1,
-          target_address: "Невский проспект дом 21",
-          score: 0.5,
-        },
-        {
-          target_building_id: 2,
-          target_address: "Невский проспект дом 21",
-          score: 0.5,
-        },
-      ],
-    },
-    {
-      id: 2,
-      status: "pending",
-      kind: "file",
-      input: "big_data.csv",
-      bestScore: 0.5,
-    },
-  ];
+  public items: MessageItem[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -52,7 +25,7 @@ class MessagesStore {
       status: "pending",
       kind: "text",
       input: message,
-      bestScore: 0.5,
+      bestScore: 0,
       output: null,
     });
 
@@ -72,6 +45,7 @@ class MessagesStore {
       if (item && item.kind === "text") {
         item.status = "success";
         item.output = data;
+        item.bestScore = data[0].score;
       }
 
       localStorage.setItem("messages", JSON.stringify(this.items));
@@ -81,6 +55,8 @@ class MessagesStore {
         item.status = "error";
       }
     }
+
+    this.isLoading = false;
   }
 
   public async sendAttachment(file: File) {
@@ -92,7 +68,7 @@ class MessagesStore {
       status: "pending",
       kind: "file",
       input: file.name,
-      bestScore: 0.5,
+      bestScore: 0,
     } as MessageItem);
 
     const item = this.items.find((item) => item.id === itemId);
@@ -119,7 +95,7 @@ class MessagesStore {
 
       const link = document.createElement("a");
       link.href = downloadUrl;
-      link.download = "result.csv";
+      link.download = `result_${file.name}`;
       link.click();
 
       URL.revokeObjectURL(downloadUrl);
